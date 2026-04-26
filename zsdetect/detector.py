@@ -25,9 +25,12 @@ __all__ = ["DEFAULT_MODEL", "DEFAULT_THRESHOLD", "Detector"]
 DEFAULT_MODEL = "google/owlv2-base-patch16-ensemble"
 
 # Confidence floor below which detections are dropped from the returned
-# list. 0.1 mirrors the value the HF zero-shot-OD docs use as a starting
-# point. UI exposes this as a slider so users can dial it.
-DEFAULT_THRESHOLD = 0.1
+# list. 0.2 was picked after first-day live testing — at 0.1 (the HF
+# docs' starting suggestion) OWLv2 over-emits on visually-similar
+# distractors (a "tiger" box landing on a cheetah, etc.) on dense
+# multi-object images. 0.2 cuts most of that noise without dropping
+# obvious matches. UI exposes this as a slider so users can dial it.
+DEFAULT_THRESHOLD = 0.2
 
 
 class Detector:

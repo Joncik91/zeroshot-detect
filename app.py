@@ -84,6 +84,11 @@ def main() -> gr.Blocks:
                 )
                 threshold_input = gr.Slider(
                     label="Confidence threshold",
+                    info=(
+                        "Lower = more candidates (incl. false matches on "
+                        "look-alikes). Higher = fewer, cleaner boxes. "
+                        "0.2-0.3 is a good starting band."
+                    ),
                     minimum=0.05,
                     maximum=0.50,
                     step=0.01,
