@@ -8,6 +8,7 @@ Every non-obvious decision that shapes zeroshot-detect's design lands here as an
 - [0002 — Detection data contract](0002-detection-data-contract.md)
 - [0003 — Rendering strategy](0003-rendering-strategy.md)
 - [0004 — UI and deployment](0004-ui-and-deployment.md)
+- [0005 — Per-label non-max suppression](0005-non-max-suppression.md)
 
 ## How to add one
 

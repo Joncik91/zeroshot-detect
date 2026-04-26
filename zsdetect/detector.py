@@ -13,6 +13,7 @@ from __future__ import annotations
 from functools import cached_property
 from typing import TYPE_CHECKING, Any
 
+from zsdetect.nms import DEFAULT_IOU_THRESHOLD, non_max_suppression
 from zsdetect.types import Detection
 
 if TYPE_CHECKING:
@@ -69,12 +70,19 @@ class Detector:
         image: Image,
         labels: list[str],
         threshold: float = DEFAULT_THRESHOLD,
+        iou_threshold: float = DEFAULT_IOU_THRESHOLD,
     ) -> list[Detection]:
         """Return a list of detections sorted by score (highest first).
 
         Empty `labels` returns an empty list (no work to do; no model
         load triggered either, useful for the "user hit Detect with no
         labels typed" UI path).
+
+        After confidence filtering, per-label NMS at `iou_threshold`
+        deduplicates overlapping boxes for the same label (a
+        side-by-side cluster of "lion" candidates collapses to the
+        single highest-scored one). NMS never crosses labels — a
+        "lion" box never suppresses an overlapping "tiger" box.
         """
         if not labels:
             return []
@@ -116,4 +124,6 @@ class Detector:
         ]
         # Sort high-confidence first so the renderer overlays them on top.
         detections.sort(key=lambda d: d.score, reverse=True)
-        return detections
+        # NMS is applied AFTER threshold + sort so the "highest-scored
+        # in each cluster" rule operates on the already-filtered set.
+        return non_max_suppression(detections, iou_threshold=iou_threshold)
