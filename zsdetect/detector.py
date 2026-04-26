@@ -84,13 +84,18 @@ class Detector:
 
         # post_process_grounded_object_detection rescales boxes back to
         # the original image's pixel coordinates and applies the
-        # threshold. `text_labels=labels` returns the user's strings as
-        # the labels (instead of integer indices) — ADR-0002.
+        # threshold. `text_labels=[labels]` returns the user's strings
+        # as the labels (instead of integer indices) — ADR-0002.
+        # WHY [labels] and not labels: the post-processor demands
+        # "one list-of-labels per image", same shape as the input
+        # `text=[labels]` further up. Passing a flat list raises
+        # ValueError("Make sure that you pass in as many lists of text
+        # labels as images") even though it parses without complaint.
         results = self._processor.post_process_grounded_object_detection(
             outputs,
             threshold=threshold,
             target_sizes=[(image.height, image.width)],
-            text_labels=labels,
+            text_labels=[labels],
         )[0]
 
         detections = [
