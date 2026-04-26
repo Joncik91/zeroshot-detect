@@ -87,7 +87,8 @@ def main() -> gr.Blocks:
                     info=(
                         "Lower = more candidates (incl. false matches on "
                         "look-alikes). Higher = fewer, cleaner boxes. "
-                        "0.2-0.3 is a good starting band."
+                        "0.25 is the empirically-calibrated default; "
+                        "dense compositions may want 0.3-0.4."
                     ),
                     minimum=0.05,
                     maximum=0.50,

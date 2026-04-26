@@ -20,6 +20,8 @@ short_description: Type any English noun, see bounding boxes (OWLv2).
 
 > 👉 **[Try the live demo](https://huggingface.co/spaces/Joncik/zeroshot-detect)** — drop a photo, type "a hat, a dog, a coffee cup", see the boxes drawn instantly.
 
+![zeroshot-detect demo: dropping a multi-animal poster, typing "a lion, a tiger, a zebra", and getting one crisp bounding box around each at threshold 0.25.](docs/screenshot.png)
+
 ## What it does
 
 Pretrained zero-shot object detection over **[OWLv2](https://huggingface.co/google/owlv2-base-patch16-ensemble)** (Apache-2.0, 200M parameters). The model jointly embeds image patches and your text queries, scores patch-text similarity, and returns one bounding box per accepted match. No fine-tuning, no closed class set — type what you want and the model looks for it.

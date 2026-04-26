@@ -26,12 +26,13 @@ __all__ = ["DEFAULT_MODEL", "DEFAULT_THRESHOLD", "Detector"]
 DEFAULT_MODEL = "google/owlv2-base-patch16-ensemble"
 
 # Confidence floor below which detections are dropped from the returned
-# list. 0.2 was picked after first-day live testing — at 0.1 (the HF
-# docs' starting suggestion) OWLv2 over-emits on visually-similar
-# distractors (a "tiger" box landing on a cheetah, etc.) on dense
-# multi-object images. 0.2 cuts most of that noise without dropping
-# obvious matches. UI exposes this as a slider so users can dial it.
-DEFAULT_THRESHOLD = 0.2
+# list. 0.25 was empirically calibrated on a dense multi-animal poster:
+# at 0.1 OWLv2 over-emits on visually-similar distractors ("tiger" box
+# on a cheetah); at 0.2 some false positives still survive; at 0.25 the
+# results are clean — three labels, three correct boxes — without
+# losing recall on obvious matches. UI exposes this as a slider so
+# users can dial it.
+DEFAULT_THRESHOLD = 0.25
 
 
 class Detector:
