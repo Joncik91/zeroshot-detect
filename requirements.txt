@@ -22,5 +22,11 @@ torch>=2.2
 # OWLv2 model + tokenizer + image processor
 transformers>=4.45,<5
 
+# scipy — required by Owlv2ImageProcessor for image resizing.
+# Like torch, transformers does NOT pull this transitively (it's only
+# needed by certain processors). Without it, the first detect() call
+# crashes with "Owlv2ImageProcessor requires the scipy library".
+scipy>=1.11
+
 # UI — pinned range matches sdk_version in README.md frontmatter.
 gradio>=5,<7
