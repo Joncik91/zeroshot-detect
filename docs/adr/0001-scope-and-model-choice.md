@@ -12,7 +12,7 @@ Hugging Face's "Zero-Shot Object Detection" task category currently lists 107 mo
 
 Forces:
 - The deploy target is a free-tier HF CPU Space — model weights must fit, inference must be tolerable on CPU (~5-15 s).
-- License must be permissive (Apache or MIT) so the project's Apache-2.0 LICENSE composes cleanly.
+- License must be permissive (Apache or MIT) so the project's MIT LICENSE composes cleanly with the model's terms.
 - v1 must demonstrate something working end-to-end, not chase model SOTA.
 
 ## Decision
@@ -42,7 +42,7 @@ Forces:
 - **Positive:**
   - Smallest CV slot on the Hub means a polished demo is competitive by default.
   - Visceral, recruiter-magnetic mechanic — drag image, type noun, see boxes.
-  - All-permissive licence stack (Apache OWLv2 → Apache project).
+  - All-permissive licence stack (Apache-2.0 OWLv2 model → MIT project wrapper). The model's licence governs the weights; MIT governs our code.
   - Auto* interface gives us model-swap flexibility for free.
 
 - **Negative:**

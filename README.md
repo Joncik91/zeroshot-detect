@@ -7,7 +7,7 @@ sdk: gradio
 sdk_version: "6.13.0"
 app_file: app.py
 pinned: false
-license: apache-2.0
+license: mit
 short_description: Type any English noun, see bounding boxes (OWLv2).
 ---
 
@@ -63,4 +63,4 @@ Same hard rules as the rest of the portfolio (paperQA, Pragma, etc.) — codifie
 
 ## License
 
-Apache-2.0 — see [LICENSE](LICENSE). Inherits from OWLv2's Apache-2.0.
+MIT — see [LICENSE](LICENSE). The OWLv2 model weights ship under Apache-2.0; using them from this MIT-licensed wrapper is fine because the model's licence governs the model artefact, not the surrounding code.
