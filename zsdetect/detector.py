@@ -44,9 +44,14 @@ class Detector:
     def _processor(self) -> Any:
         # Lazy: pulls transformers (and torch transitively) only on first
         # actual inference. See ADR-0001's "CPU-Space target" rationale.
+        # WHY the type: ignore: transformers' Auto* classes ship partial
+        # stubs in which `from_pretrained` is marked untyped on stricter
+        # envs (CI Python 3.11/3.12 with the latest transformers). We
+        # treat the call as Any-returning at the call site rather than
+        # silencing all untyped calls module-wide.
         from transformers import AutoProcessor
 
-        return AutoProcessor.from_pretrained(self._model_name)
+        return AutoProcessor.from_pretrained(self._model_name)  # type: ignore[no-untyped-call]
 
     @cached_property
     def _model(self) -> Any:

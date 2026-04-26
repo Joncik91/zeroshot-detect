@@ -69,8 +69,8 @@ markers = [
 python_version = "3.11"
 strict = true
 
-# transformers, torch, PIL, gradio: optional runtime deps without strict stubs.
-# Same pattern as the paperQA repo.
+# transformers, torch, PIL, gradio: optional runtime deps without strict
+# stubs. Same pattern as the paperQA repo.
 [[tool.mypy.overrides]]
 module = ["transformers.*", "torch.*", "PIL.*", "gradio.*"]
 ignore_missing_imports = true
