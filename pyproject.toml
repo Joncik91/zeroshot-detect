@@ -28,7 +28,11 @@ dependencies = [
 [project.optional-dependencies]
 # Heavy ML runtime — OWLv2 weights + torch. Install with
 # `pip install -e ".[detect]"` for local development with real inference.
+# WHY torch is listed explicitly: modern `transformers` no longer pulls
+# a deep-learning framework as a hard dep — without this line, the
+# `import torch` inside the Detector blows up at first inference.
 detect = [
+    "torch>=2.2",
     "transformers>=4.45,<5",
 ]
 # Gradio UI (HF Space entry point).

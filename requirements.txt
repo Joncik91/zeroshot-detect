@@ -13,6 +13,12 @@
 numpy>=1.26,<3
 pillow>=10,<12
 
+# PyTorch — must be listed explicitly: modern transformers no longer
+# pulls a deep-learning framework as a hard dep. Without this line,
+# `import torch` inside the Detector blows up at first inference.
+# CPU wheel is fine for the free Space; HF auto-resolves the right wheel.
+torch>=2.2
+
 # OWLv2 model + tokenizer + image processor
 transformers>=4.45,<5
 
