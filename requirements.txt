@@ -1,0 +1,20 @@
+# HF Spaces installs from this file at build time.
+#
+# WHY this exists alongside pyproject.toml: HF Spaces ignores
+# pyproject optional-dependencies and installs only what's listed here.
+# Keep this list aligned with the [detect] + [app] extras in pyproject.toml.
+#
+# zsdetect is at the repo root (no src/ layout) so it lands on sys.path
+# automatically when the Space runs `python app.py` from /app — no
+# `pip install .` line needed (and the `.` line breaks anyway because
+# HF mounts requirements.txt at /tmp/).
+
+# Core
+numpy>=1.26,<3
+pillow>=10,<12
+
+# OWLv2 model + tokenizer + image processor
+transformers>=4.45,<5
+
+# UI — pinned range matches sdk_version in README.md frontmatter.
+gradio>=5,<7

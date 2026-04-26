@@ -1,0 +1,53 @@
+# CI — lint, typecheck, test on every push and pull request.
+#
+# WHY: CONTRIBUTING.md promises ruff + mypy strict + pytest pass before any
+# change lands. Running them in GitHub Actions is the enforcement mechanism
+# for that promise. Same shape as the paperQA repo so the discipline is
+# consistent across portfolio projects.
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install project with all extras
+        # WHY all extras: CI must typecheck app.py (gradio-dependent) and
+        # the detector (transformers-dependent). Integration tests are
+        # still deselected by the addopts in pyproject.toml.
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev,detect,app]"
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Ruff format check
+        run: ruff format --check .
+
+      - name: Mypy (strict)
+        run: mypy zsdetect/ app.py
+
+      - name: Pytest
+        run: pytest -q

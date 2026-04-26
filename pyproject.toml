@@ -1,0 +1,76 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "zsdetect"
+version = "0.0.1"
+description = "Zero-shot object detection — type any English noun, see bounding boxes."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [{ name = "Jounes" }]
+keywords = ["computer-vision", "object-detection", "zero-shot", "owlv2", "huggingface"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "numpy>=1.26,<3",
+    "pillow>=10,<12",
+]
+
+[project.optional-dependencies]
+# Heavy ML runtime — OWLv2 weights + torch. Install with
+# `pip install -e ".[detect]"` for local development with real inference.
+detect = [
+    "transformers>=4.45,<5",
+]
+# Gradio UI (HF Space entry point).
+app = [
+    "gradio>=5,<7",
+]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.6",
+    "mypy>=1.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/Joncik91/zeroshot-detect"
+Issues = "https://github.com/Joncik91/zeroshot-detect/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["zsdetect"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# -m "not integration" excludes the tests that need the real OWLv2 model.
+# Run them with: pytest -m integration
+addopts = "-ra --strict-markers -m 'not integration'"
+markers = [
+    "integration: requires the real OWLv2 model + torch (skipped in default runs)",
+]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+
+# transformers, torch, PIL, gradio: optional runtime deps without strict stubs.
+# Same pattern as the paperQA repo.
+[[tool.mypy.overrides]]
+module = ["transformers.*", "torch.*", "PIL.*", "gradio.*"]
+ignore_missing_imports = true
